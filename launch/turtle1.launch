@@ -1,0 +1,15 @@
+<launch>
+
+	<arg name="map_file" default="$(find uv_decontamination)/maps/octo_etu_3d.ot"/>
+	<arg name="2d_map_name" default="$(find uv_decontamination)/maps/octo_etu_2d"/>
+
+	<!-- Publish the octomap and grab the projected 2D map -->
+        <group ns="no_floor_map">
+               <node pkg="octomap_server" type="octomap_server_node" name="octomap_for2d" args="$(arg map_file)">
+                     <param name="occupancy_min_z" type="double" value="0.2"/>
+               </node>
+               <arg name="map" default="/no_floor_map/projected_map"/>
+               <node pkg="map_server" type="map_saver" name="map_saver" args="map:=$(arg map) -f $(arg 2d_map_name)" output="screen"/>
+        </group>
+
+</launch>

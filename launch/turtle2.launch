@@ -1,0 +1,12 @@
+<launch>
+
+	<!-- Eventually need to pass map file as arg -->
+        <node pkg="uv_decontamination" type="fix_nan.py" name="fix_nan" output="screen"/>
+
+	<!-- Launch AMCL -->
+	<include file="$(find turtlebot_navigation)/launch/amcl_demo.launch">
+		  <arg name="map_file" value="$(find uv_decontamination)/maps/octo_etu_2d.yaml"/>
+	</include>
+
+
+</launch>

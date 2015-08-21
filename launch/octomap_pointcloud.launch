@@ -1,0 +1,16 @@
+<launch>
+
+	<!-- Publish the octomap pointcloud and convert it to an XYZ -->
+	<arg name="map_file" default="$(find uv_decontamination)/maps/octo_etu_3d.ot"/>
+	<group ns="full_map">
+	       <node pkg="octomap_server" type="octomap_server_node" name="octomap_pointcloud" args="$(arg map_file)"/>
+	       <node pkg="uv_decontamination" type="convert_pc.py" name="pointcloud_converter" output="screen"/>
+	</group>
+
+	<!-- Listen to what the user does in rviz for possible poses -->
+	<node pkg="uv_decontamination" type="pose_listener.py" name="pose_listener" output="screen">
+	      <param name="num_goals" value="2"/>
+	</node>
+	<!-- Launch rviz with the nav view -->
+	<include file="$(find turtlebot_rviz_launchers)/launch/view_navigation.launch"/>
+</launch>
